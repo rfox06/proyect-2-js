@@ -5,11 +5,12 @@ const objEmpleado = {
     nombre: '',
     puesto: ''
 }
+
 let editando = false;
 
 const formulario = document.querySelector('#formulario');
 const nombreInput = document.querySelector('#nombre');
-const puestoInput = document.queryselector('#puesto');
+const puestoInput = document.querySelector('#puesto');
 const btnAgregar = document.querySelector('#btnAgregar');
 
 formulario.addEventListener('submit', validarFormulario);
@@ -22,17 +23,15 @@ function validarFormulario(e) {
         return;
     }
 
-    if(editando){
+    if(editando) {
         editarEmpleado();
-        editando=false;
-
-    }else {
+        editando = false;
+    } else {
         objEmpleado.id = Date.now();
         objEmpleado.nombre = nombreInput.value;
         objEmpleado.puesto = puestoInput.value;
 
         agregarEmpleado();
-
     }
 }
 
@@ -56,13 +55,13 @@ function limpiarObjeto() {
 function mostrarEmpleados() {
     limpiarHTML();
 
-    const divEmpleados = document.querySelector('.div-empleados'); 
-
-    listaEmpleados.forEach( empleado => {
+    const divEmpleados = document.querySelector('.div-empleados');
+    
+    listaEmpleados.forEach(empleado => {
         const {id, nombre, puesto} = empleado;
 
         const parrafo = document.createElement('p');
-        parrafo.textContent = `${id} - ${nombre} - ${puesto} -`;
+        parrafo.textContent = `${id} - ${nombre} - ${puesto} - `;
         parrafo.dataset.id = id;
 
         const editarBoton = document.createElement('button');
@@ -82,7 +81,7 @@ function mostrarEmpleados() {
         divEmpleados.appendChild(parrafo);
         divEmpleados.appendChild(hr);
 
-    })
+    });
 }
 
 function cargarEmpleado(empleado) {
@@ -94,33 +93,37 @@ function cargarEmpleado(empleado) {
 
     objEmpleado.id = id;
 
-    formulario.querySelector('button[type="submit"]').textcontent = 'Actualizar';
-
+    formulario.querySelector('button[type="submit"]').textContent = 'Actualizar';
+    
     editando = true;
 }
 
 function editarEmpleado() {
     objEmpleado.nombre = nombreInput.value;
-    objEmpleado.pueto = puestoInput.value;
+    objEmpleado.puesto = puestoInput.value;
 
-    listaEmpleados.map( empleados => {
+    listaEmpleados.map( empleado => {
         if(empleado.id === objEmpleado.id) {
             empleado.id = objEmpleado.id;
             empleado.nombre = objEmpleado.nombre;
             empleado.puesto = objEmpleado.puesto;
         }
     });
+
     limpiarHTML();
     mostrarEmpleados();
 
     formulario.reset();
-    formulario.querySelector('button[type="submit]').textContent = 'Agregar';
+
+    formulario.querySelector('button[type="submit"]').textContent = 'Agregar';
+    
     editando = false;
 
 }
 
 function eliminarEmpleado(id) {
     listaEmpleados = listaEmpleados.filter(empleado => empleado.id !== id);
+
     limpiarHTML();
     mostrarEmpleados();
 }
@@ -128,7 +131,7 @@ function eliminarEmpleado(id) {
 
 
 function limpiarHTML() {
-    const divEmpleados = document.querySelector('.div-empledaos')
+    const divEmpleados = document.querySelector('.div-empleados');
     while(divEmpleados.firstChild) {
         divEmpleados.removeChild(divEmpleados.firstChild);
     }
